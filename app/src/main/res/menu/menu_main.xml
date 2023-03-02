@@ -9,4 +9,9 @@
         android:id="@+id/action_grid"
         android:title="@string/grid"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/profile"
+        android:title=""
+        android:icon="@drawable/ic_profile"
+        app:showAsAction="ifRoom"/>
 </menu>

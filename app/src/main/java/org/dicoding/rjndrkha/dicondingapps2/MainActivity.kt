@@ -1,5 +1,6 @@
 package org.dicoding.rjndrkha.dicondingapps2
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.dicoding.rjndrkha.dicondingapps2.adapter.ListHeroAdapter
 import org.dicoding.rjndrkha.dicondingapps2.model.Hero
+import org.dicoding.rjndrkha.dicondingapps2.page.MainDetailPage
+import org.dicoding.rjndrkha.dicondingapps2.page.Profile
 
 class MainActivity : AppCompatActivity() {
     private lateinit var rvHeroes: RecyclerView
@@ -40,15 +43,25 @@ class MainActivity : AppCompatActivity() {
             R.id.action_grid -> {
                 rvHeroes.layoutManager = GridLayoutManager(this, 2)
             }
+            R.id.profile -> {
+                val intent = Intent(this, Profile::class.java)
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun getListHeroes(): ArrayList<Hero> {
+
         val dataName = resources.getStringArray(R.array.data_name)
         val dataDescription = resources.getStringArray(R.array.data_description)
         //val dataPhoto = resources.obtainTypedArray(R.array.data_photo)
         val dataPhoto = resources.getStringArray(R.array.data_photo)
+        val dataTanggal = resources.getStringArray(R.array.data_tanggal)
+
+        val dataGenre = resources.getStringArray(R.array.data_genre)
+        val dataSutradara = resources.getStringArray(R.array.data_sutradara)
+
         val listHero = ArrayList<Hero>()
 //        for (i in dataName.indices) {
 //            val hero = Hero(dataName[i], dataDescription[i], dataPhoto.getResourceId(i, -1))
@@ -56,7 +69,8 @@ class MainActivity : AppCompatActivity() {
 //        }
         //with glide
         for (i in dataName.indices) {
-            val hero = Hero(dataName[i], dataDescription[i], dataPhoto[i])
+            val hero = Hero(dataName[i], dataDescription[i], dataPhoto[i],
+                dataTanggal[i],dataGenre[i],dataSutradara[i])
             listHero.add(hero)
         }
         return listHero
@@ -69,6 +83,11 @@ class MainActivity : AppCompatActivity() {
         listHeroAdapter.setOnItemClickCallback(object : ListHeroAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Hero) {
                 showSelectedHero(data)
+
+                //Sending Data To Detail Page
+                val moveIntentDetail = Intent(this@MainActivity, MainDetailPage::class.java)
+                moveIntentDetail.putExtra("Data", data)
+                startActivity(moveIntentDetail)
             }
         })
     }
